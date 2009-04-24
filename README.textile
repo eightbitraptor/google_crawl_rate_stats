@@ -1,0 +1,10 @@
+h2. Google Crawl Rate Monitor
+
+Create simple web based graphs of the daily crawl rate by Googlebot. This relies on having your apache log data accessible via http so should probably only be used in an internal environment.
+
+h2. Install
+
+# clone this repository to a web accessible place
+# set up a cron job to run the google_rate_monitor and the graph visits script daily, mine looks like this
+
+0 7 * * * cd /var/www/googlevisits && ruby google_rate_monitor.rb > /dev/null && ruby graph_visits.rb > /dev/null
