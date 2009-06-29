@@ -13,6 +13,7 @@ class googleRateMonitor
     @server='localhost'
     @date = (Date.today-1).strftime("%Y%m%d")
     @filename="/merged/merged.access.#{@date}"
+    @carry_on = true
 
     def get_logfile(logfile)
       Net::HTTP.start("#{@server}") do |http|
@@ -28,6 +29,10 @@ class googleRateMonitor
             open("/tmp/temp.log","wb") do |file|
               file.write(r.body)
             end
+          elsif resp.is_a? Net::HTTPNotFound and @carry_on 
+            @date = (Date.today).strftime("%Y%m00")
+            @carry_on = false
+            get_logfile
           else
             raise "Error"
           end
